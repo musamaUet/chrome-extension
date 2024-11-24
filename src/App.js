@@ -22,7 +22,7 @@ const ChromeStorageComponent = () => {
     if (window.chrome) {
       // Send message to the content script
       window.postMessage(
-        { type: "SAVE_DETAILS", fields }, 
+        { type: "SAVE_DETAILS", details: fields }, 
         "*"
       );
       alert("Email sent to Chrome Extension!");

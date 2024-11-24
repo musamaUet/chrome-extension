@@ -3,17 +3,16 @@
   "name": "Email Saver",
   "version": "1.0",
   "permissions": ["storage"],
-  "host_permissions": ["http://localhost/*"],
   "background": {
     "service_worker": "background.js"
   },
   "content_scripts": [
     {
-      "matches": ["http://localhost/*"],
-      "js": ["connector.js"]
+      "matches": ["<all_urls>"],
+      "js": ["connector.js","domain.js", "content_utils.js", "create_elements.js", "content.js"]
     }
   ],
   "action": {
-    "default_popup": "index.html"
+    "default_popup": "popup.html"
   }
 }
