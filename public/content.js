@@ -431,16 +431,17 @@ location.hostname === "www.amazon.com" && r('a');
 
 async function checkAndPromptFields() {
     return new Promise(resolve => {
-        chrome.storage.local.get('defaultFields', function (result) {
+        chrome.storage.sync.get(null, async function(result) {
             let fieldsComplete = true;
 
-            if (Object.keys(result).length === 0 && result.constructor === Object) {
-                chrome.storage.local.set({ 'defaultFields': defaultFields }, function () {
-                    resolve(false);
-                });
+            if (Object.keys(result?.userDetails).length === 0 && result?.userDetailss.constructor === Object) {
+                // chrome.storage.local.set({ 'defaultFields': defaultFields }, function () {
+                //     resolve(false);
+                // });
+                resolve(false);
             } else {
-                for (const key in result.defaultFields) {
-                    if (!result.defaultFields[key]) {
+                for (const key in result?.userDetails) {
+                    if (!result.userDetails[key]) {
                         fieldsComplete = false;
                         break;
                     }
@@ -449,11 +450,11 @@ async function checkAndPromptFields() {
                 if (!fieldsComplete) {
                     resolve(false);
                 } else {
-                    defaultFields = result.defaultFields;
+                    defaultFields = result.userDetails;
                     resolve(true);
                 }
             }
-        });
+        })
     });
 }
 
@@ -461,7 +462,8 @@ async function checkAndPromptFields() {
 async function runScript() {
     const fieldsComplete = await checkAndPromptFields();
     if (!fieldsComplete) {
-        chrome.runtime.sendMessage({ action: 'openDefaultInputPage' });
+        // chrome.runtime.sendMessage({ action: 'openDefaultInputPage' });
+        window.open('http://localhost:3000', '_blank');
         return;
     }
 
