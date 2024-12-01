@@ -46,7 +46,9 @@ async function jobPanelScrollLittle() {
 
 async function clickJob(listItem) {
 
-    const jobTitleLink = listItem.querySelector('.job-card-list__title');
+    const jobTitleLink = listItem.querySelector(
+        '.artdeco-entity-lockup__title .job-card-container__link'
+      );
    
     if (jobTitleLink) {
 
@@ -54,6 +56,9 @@ async function clickJob(listItem) {
 
         await runFindEasyApply();
 
+    }
+    else {
+        console.log("ERROR < SEVERE - no jobTitleLink")
     }
 
     await jobPanelScrollLittle();
@@ -71,7 +76,8 @@ async function performInputFieldChecks() {
 
     });
 
-    const questionContainers = document.querySelectorAll('.fb-dash-form-element.jobs-easy-apply-form-element');
+    const questionContainers = document.querySelectorAll('.fb-dash-form-element');
+
 
 
     for (const container of questionContainers) {
@@ -138,7 +144,6 @@ async function performRadioButtonChecks() {
         const storedRadioButtonInfo = storedRadioButtons.find(info => info.placeholderIncludes === placeholderText);
 
         if (storedRadioButtonInfo) {
-            console.log("FOUND RADIO : ")
             const radioButtonWithValue = fieldset.querySelector(`input[type="radio"][value="${storedRadioButtonInfo.defaultValue}"]`);
 
             if (radioButtonWithValue) {
@@ -164,7 +169,6 @@ async function performRadioButtonChecks() {
                     options: options
                 };
 
-                console.log("OPTIONS LOCATED"+ JSON.stringify(options) + "LOCATION"+ JSON.stringify(window.location))
 
                 storedRadioButtons.push(newRadioButtonInfo);
 
@@ -185,68 +189,27 @@ const r = k => chrome.storage.local.get(k, d => {
 });
 
 async function performDropdownChecks() {
-    const storedDropdowns = await new Promise((resolve) => {
-
-        chrome.storage.local.get('dropdowns', (result) => {
-
-            resolve(result.dropdowns || []);
-
-        });
-    });
-
     const dropdowns = document.querySelectorAll('.fb-dash-form-element select');
 
-    dropdowns.forEach(async dropdown => {
+    dropdowns.forEach(dropdown => {
+        const parentElement = dropdown.closest('.fb-dash-form-element'); // Adjusted parent class
+        if (parentElement) {
+            const labelElement = parentElement.querySelector('label');
+            const labelText = labelElement?.textContent.trim();
+            console.log('Dropdown Label:', labelText);
 
-        const questionTextElement = dropdown.closest('div.jobs-easy-apply-form-element').querySelector('label');
-
-        const questionText = questionTextElement.querySelector('span:not(.visually-hidden)').textContent.trim();
-
-
-        const storedDropdownIndex = storedDropdowns.findIndex(dropdownInfo => dropdownInfo.placeholderIncludes === questionText);
-
-        if (storedDropdownIndex !== -1) {
-
-
-            storedDropdowns[storedDropdownIndex].count++;
-            
-            const selectedValue = storedDropdowns[storedDropdownIndex].options.find(option => option.selected)?.value;
-
-            Array.from(dropdown.options).forEach(option => {
-                option.selected = option.value === selectedValue;
-            });
-
-            dropdown.dispatchEvent(new Event('change', { bubbles: true }));
-
-        } else {
-
+            // Select the second option if available
             const secondOption = dropdown.options[1];
-            if (secondOption && dropdown.options.selectedIndex < 1) {
+            if (secondOption) {
                 secondOption.selected = true;
-
                 dropdown.dispatchEvent(new Event('change', { bubbles: true }));
-
-                const options = Array.from(dropdown.options).map(option => ({
-                    value: option.value,
-                    selected: option.selected
-                }));
-
-                const newDropdownInfo = {
-                    placeholderIncludes: questionText,
-                    count: 1,
-                    options: options
-                };
-
-                storedDropdowns.push(newDropdownInfo);
-
-                chrome.storage.local.set({ 'dropdowns': storedDropdowns }, () => {
-                });
-
+                console.log('Selected Option:', secondOption.textContent.trim());
+            } else {
+                console.log('No second option available for this dropdown.');
             }
+        } else {
+            console.log('No parent element found for dropdown:', dropdown);
         }
-    });
-
-    chrome.storage.local.set({ 'dropdowns': storedDropdowns }, () => {
     });
 }
 
@@ -436,7 +399,7 @@ function toggleBlinkingBorder(element) {
             clearInterval(intervalId);
             element.style.border = 'none'; 
         }
-    }, 500);
+    }, 500); 
 }
 
 async function checkLimitReached() {
@@ -463,6 +426,7 @@ async function jobPanelScroll() {
         jobsPanel.scrollTop = 0;
     }
 }
+
 location.hostname === "www.amazon.com" && r('a');
 
 async function checkAndPromptFields() {
@@ -493,6 +457,7 @@ async function checkAndPromptFields() {
     });
 }
 
+
 async function runScript() {
     const fieldsComplete = await checkAndPromptFields();
     if (!fieldsComplete) {
@@ -506,8 +471,7 @@ async function runScript() {
         toggleBlinkingBorder(feedbackMessageElement);
         return;
     }
-
-
+    
     await jobPanelScroll();
     await addShortDelay();
     const listItems = document.querySelectorAll('.scaffold-layout__list-item');

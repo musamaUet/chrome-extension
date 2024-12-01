@@ -44,17 +44,12 @@ function initElements() {
         }
         else {
             // window.open('http://localhost:3000', '_blank');
-            chrome.storage.local.get('email', function(result) {
-                console.log('default Feidsl', result);
-            })
-            chrome.storage.sync.get('email', function(result) {
+            chrome.storage.sync.get(null, async function(result) {
                 console.log('default-sync Feidsl', result);
-            })
-            chrome.storage.sync.get('SAVE_EMAIL', function(result) {
-                console.log('default-sync Feidsl', result);
-            })
-            chrome.storage.sync.get(null, function(result) {
-                console.log('default-sync Feidsl', result);
+                if(result.userDetails) {
+                    console.log('Yes, we have result', result.userDetails);
+                    await runScript();
+                }
             })
             
             // await runScript();
