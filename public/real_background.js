@@ -11,22 +11,18 @@ chrome.runtime.onConnect.addListener(port => {});
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'initStorage') {
         chrome.storage.local.get(['inputFieldConfigs'], result => {
-
             // if not found then set the storage to default
             if (!result.inputFieldConfigs) {
                 chrome.storage.local.set({ 'inputFieldConfigs': inputFieldConfigs }, () => {
                     currentInputFieldConfigs = inputFieldConfigs;
                 });
             }
-
             else {
                 // found storage
                 currentInputFieldConfigs = result.inputFieldConfigs;
             }
-
         });
     }
-
 });
 
 //update value for placeholder
@@ -82,8 +78,6 @@ function updateOrAddInputFieldValue(placeholder, value) {
                 currentInputFieldConfigs = inputFieldConfigs;
             });
         }
-
-
     });
 }
 
@@ -102,33 +96,23 @@ function updateInputFieldConfigsInStorage(placeholder) {
             // If found, update the count
             foundConfig.count++;
 
-                    // Update the inputFieldConfigs in storage
-        chrome.storage.local.set({ 'inputFieldConfigs': inputFieldConfigs }, () => {
-            currentInputFieldConfigs = inputFieldConfigs;
-        });
-
-
+            // Update the inputFieldConfigs in storage
+            chrome.storage.local.set({ 'inputFieldConfigs': inputFieldConfigs }, () => {
+                currentInputFieldConfigs = inputFieldConfigs;
+            });
         } else {
-
             chrome.storage.local.get('defaultFields', function(result) {
                 const defaultFields = result.defaultFields || {};
-
                 const newConfig = { placeholderIncludes: placeholder, defaultValue: defaultFields.YearsOfExperience, count: 1 };
                 inputFieldConfigs.push(newConfig);
-
-                        // Update the inputFieldConfigs in storage
-        chrome.storage.local.set({ 'inputFieldConfigs': inputFieldConfigs }, () => {
-            currentInputFieldConfigs = inputFieldConfigs;
-        });
+                // Update the inputFieldConfigs in storage
+                chrome.storage.local.set({ 'inputFieldConfigs': inputFieldConfigs }, () => {
+                    currentInputFieldConfigs = inputFieldConfigs;
+                });
               });
-
-
         }
-
-
     });
 }
-
 
 function deleteInputFieldConfig(placeholder) {
     chrome.storage.local.get(['inputFieldConfigs'], result => {
