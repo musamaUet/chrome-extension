@@ -1,0 +1,15 @@
+@font-face {
+  font-family: "Neue Machina";
+  src: url("/fonts/neuemachina-regular-webfont.woff2") format("woff2"),
+    url("/fonts/neuemachina-regular-webfont.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Consola";
+  src: url("/fonts/consola-webfont.woff2") format("woff2"),
+    url("/fonts/consola-webfont.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
