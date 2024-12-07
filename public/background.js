@@ -47,6 +47,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             break;
 
         case "updateInputFieldConfigsInStorage":
+            console.log('inputFieldConfig', message.data);
             updateInputFieldConfigsInStorage(message.data);
             break;
 
@@ -76,7 +77,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             break;
 
         case "openDefaultInputPage":
-            chrome.tabs.create({ url: 'defaultInput.html' });
+            // chrome.tabs.create({ url: 'defaultInput.html' });
+            window.open('http://localhost:5173', '_blank');
             break;
 
         default:
@@ -114,6 +116,7 @@ function updateInputFieldConfigsInStorage(placeholder) {
         } else {
             chrome.storage.local.get('defaultFields', result => {
                 const defaultFields = result.defaultFields || {};
+                console.log('result-defaultFields', result);
                 const newConfig = { placeholderIncludes: placeholder, defaultValue: defaultFields.YearsOfExperience, count: 1 };
                 inputFieldConfigs.push(newConfig);
             });

@@ -9,9 +9,9 @@ let defaultFields = {
 
 async function performInputFieldCityCheck() {
     const cityInput = document.querySelector('.search-vertical-typeahead input');
-
     if (cityInput) {
         cityInput.click();
+        console.log('defaultInputFields-inside cityInput', defaultFields);
         cityInput.value = defaultFields.City;
         const inputEvent = new Event('input', { bubbles: true });
         cityInput.dispatchEvent(inputEvent);
@@ -20,7 +20,6 @@ async function performInputFieldCityCheck() {
         firstOption.click();
     }
 }
-
 
 async function jobPanelScrollLittle() {
     const jobsPanel = document.querySelector('.jobs-search-results-list');
@@ -34,9 +33,7 @@ async function jobPanelScrollLittle() {
 
 
 async function clickJob(listItem) {
-
     const jobTitleLink = listItem.querySelector('.artdeco-entity-lockup__title .job-card-container__link');
-   
     if (jobTitleLink) {
         jobTitleLink.click();
         await runFindEasyApply();
@@ -44,7 +41,6 @@ async function clickJob(listItem) {
     else {
         console.log("ERROR < SEVERE - no jobTitleLink")
     }
-
     await jobPanelScrollLittle();
 }
 
@@ -159,6 +155,7 @@ async function performDropdownChecks() {
             console.log('Dropdown Label:', labelText);
 
             // Select the second option if available
+            console.log('email', dropdown);
             const secondOption = dropdown.options[1];
             if (secondOption) {
                 secondOption.selected = true;
@@ -399,6 +396,7 @@ async function checkAndPromptFields() {
 
 async function runScript() {
     const fieldsComplete = await checkAndPromptFields();
+    console.log('fieldsComplete', fieldsComplete);
     if (!fieldsComplete) {
         window.open('http://localhost:5173', '_blank');
         return;
