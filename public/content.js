@@ -248,7 +248,6 @@ async function terminateJobModel() {
         dismissButton.dispatchEvent(new Event('change', { bubbles: true }));
 
         const discardButton = Array.from(document.querySelectorAll('button[data-test-dialog-secondary-btn]'))
-
             .find(button => button.textContent.trim() === 'Discard');
 
         if (discardButton) {
@@ -272,7 +271,6 @@ location.hostname.includes('shein.com') && r('s');
 async function runApplyModel() {
 
     await addDelay();
-
     await performSafetyReminderCheck();
 
     const continueApplyingButton = document.querySelector('button[aria-label="Continue applying"]');
@@ -283,20 +281,14 @@ async function runApplyModel() {
     }
 
     const nextButton = Array.from(document.querySelectorAll('button')).find(button => button.textContent.includes('Next'));
-    
     const reviewButton = document.querySelector('button[aria-label="Review your application"]');
-   
     const submitButton = document.querySelector('button[aria-label="Submit application"]');
 
     if (submitButton) {
         await addShortDelay();
-
         submitButton.click();
-
         await addDelay();
-
         const modalCloseButton = document.querySelector('.artdeco-modal__dismiss');
-
         if (modalCloseButton) {
             modalCloseButton.click();
             return;
@@ -320,22 +312,16 @@ async function runApplyModel() {
 
 async function runFindEasyApply() {
     await addShortDelay();
-
     const buttons = document.querySelectorAll('button');
-
     const easyApplyButtons = Array.from(buttons).filter(button => button.textContent.includes('Easy Apply'));
-
     if (easyApplyButtons.length > 1) {
-
         easyApplyButtons[1].click();
-
         await runApplyModel();
     }
 }
 
 async function goToNextPage() {
     const nextButton = document.querySelector('.artdeco-pagination__pages .artdeco-pagination__indicator--number.active + li button');
-
     if (nextButton) {
         return new Promise(resolve => {
             setTimeout(() => {
@@ -343,11 +329,8 @@ async function goToNextPage() {
                 resolve();
             }, 2000);
         }).then(runScript);
-    }
-    
+    }   
 }
-
-
 
 function toggleBlinkingBorder(element) {
     let count = 0;
@@ -402,7 +385,6 @@ async function checkAndPromptFields() {
                         break;
                     }
                 }
-
                 if (!fieldsComplete) {
                     resolve(false);
                 } else {
