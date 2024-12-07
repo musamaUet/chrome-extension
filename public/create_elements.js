@@ -13,37 +13,25 @@ function initStorage() {
 function initElements() {
     
     const popupDiv = createPopupDiv();
-
     const toggleButton = createToggleButton();
-
     const applyButton = createApplyButton();
-
     const helpButton = createHelpButton();
-
-
     toggleButton.addEventListener('click', () => {
-
         togglePopupHeight(popupDiv, toggleButton, applyButton, helpButton);
-
     });
 
     helpButton.addEventListener('click', () => {
-
         window.open('https://multipleremotejobs.com/pages/plugin', '_blank');
-        
     });
 
     let runningScript;
     applyButton.addEventListener('click', async () => {
         runningScript = true;
-
         const currentUrl = window.location.href.includes("www.linkedin.com/jobs/search")
-
         if (!currentUrl) {
             createNotOnJobSearchAlert()
         }
         else {
-            // window.open('http://localhost:3000', '_blank');
             chrome.storage.sync.get(null, async function(result) {
                 console.log('default-sync Feidsl', result);
                 if(result.userDetails) {
@@ -51,8 +39,6 @@ function initElements() {
                     await runScript();
                 }
             })
-            
-            // await runScript();
         }
     });
 
@@ -109,8 +95,8 @@ function createNotOnJobSearchAlert() {
         border-radius: 5px;
         cursor: pointer;
     `;
-    jobSearchButton.onclick = () => window.location.href = 'https://www.linkedin.com/jobs/search';
 
+    jobSearchButton.onclick = () => window.location.href = 'https://www.linkedin.com/jobs/search';
     jobSearchButtonContainer.appendChild(jobSearchButton);
     message.appendChild(jobSearchButtonContainer);
 
@@ -131,10 +117,9 @@ function createNotOnJobSearchAlert() {
         border-radius: 5px;
         cursor: pointer;
     `;
+
     okButton.onclick = closeCustomAlert;
-
     okButtonContainer.appendChild(okButton);
-
     buttonsContainer.appendChild(okButtonContainer);
 
     const helpButtonContainer = document.createElement('div');
@@ -150,27 +135,19 @@ function createNotOnJobSearchAlert() {
         cursor: pointer;
     `;
 
-
     helpButton.onclick = () => window.open('https://multipleremotejobs.com/pages/plugin', '_blank');
-
     helpButtonContainer.appendChild(helpButton);
     buttonsContainer.appendChild(helpButtonContainer);
-
     modal.appendChild(title);
-
     modal.appendChild(message);
-
     modal.appendChild(buttonsContainer);
-
     overlay.appendChild(modal);
-
     document.body.appendChild(overlay);
 }
 
 function closeCustomAlert() {
     const overlay = document.getElementById('customAlertOverlay');
     if (overlay) {
-
         overlay.remove();
     }
 }
@@ -246,10 +223,6 @@ function createHelpButton() {
     `;
     return helpButton;
 }
-
-
-
-
 
 function togglePopupHeight(popupDiv, toggleButton, applyButton, helpButton) {
     if (popupDiv.style.height === 'auto' || popupDiv.style.height === '') {

@@ -435,9 +435,6 @@ async function checkAndPromptFields() {
             let fieldsComplete = true;
 
             if (Object.keys(result?.userDetails).length === 0 && result?.userDetailss.constructor === Object) {
-                // chrome.storage.local.set({ 'defaultFields': defaultFields }, function () {
-                //     resolve(false);
-                // });
                 resolve(false);
             } else {
                 for (const key in result?.userDetails) {
@@ -462,8 +459,7 @@ async function checkAndPromptFields() {
 async function runScript() {
     const fieldsComplete = await checkAndPromptFields();
     if (!fieldsComplete) {
-        // chrome.runtime.sendMessage({ action: 'openDefaultInputPage' });
-        window.open('http://localhost:3000', '_blank');
+        window.open('http://localhost:5173', '_blank');
         return;
     }
 
