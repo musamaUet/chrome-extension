@@ -6,7 +6,6 @@ if (isLinkedIn()) {
 }
 
 function initStorage() {
-    
     chrome.runtime.sendMessage({ action: 'initStorage' });
 }
 
