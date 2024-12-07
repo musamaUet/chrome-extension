@@ -186,9 +186,7 @@ function deleteRadioButtonConfig(placeholder) {
     chrome.storage.local.get('radioButtons', function(result) {
         const radioButtons = result.radioButtons || [];
         const updatedRadioButtons = radioButtons.filter(config => config.placeholderIncludes !== placeholder);
-        
         chrome.storage.local.set({ 'radioButtons': updatedRadioButtons }, function() {
-
         });
     });
 }
@@ -208,12 +206,9 @@ function updateDropdownConfig(placeholderIncludes, newValue) {
         storedDropdownInfo.options.forEach(option => {
             option.selected = option.value === newValue;
         });
-
             // Save the updated dropdowns to the storage
             chrome.storage.local.set({ 'dropdowns': dropdowns }, function() {
-
             });
-        
     });
 }
 
@@ -227,14 +222,10 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 function deleteDropdownValueConfig(placeholder) {
     chrome.storage.local.get('dropdowns', function(result) {
         let dropdowns = result.dropdowns || [];
-
         const indexToDelete = dropdowns.findIndex(config => config.placeholderIncludes === placeholder);
-
         if (indexToDelete !== -1) {
             dropdowns.splice(indexToDelete, 1);
-
             chrome.storage.local.set({ 'dropdowns': dropdowns }, function() {
-
             });
         }
     });
