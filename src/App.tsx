@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent } from "react";
+import toast from 'react-hot-toast';
 
 type FieldsType = {
   YearsOfExperience: string;
@@ -30,10 +31,10 @@ const ChromeStorageComponent: React.FC = () => {
     if (typeof window !== "undefined" && "chrome" in window) {
       // Send message to the content script
       window.postMessage({ type: "SAVE_DETAILS", details: fields }, "*");
-      alert("Email sent to Chrome Extension!");
+      toast.success('Fields updated successfully, you are now ready to use Auto Apply');
     } else {
       console.error("Chrome APIs are not available.");
-      alert("This feature works only in Chrome with the extension installed.");
+      toast.error('Chrome APIs are not available.');
     }
   };
 
