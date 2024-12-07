@@ -5,5 +5,6 @@ settingsButton.addEventListener('click', function() {
 
 const defaultButton = document.getElementById('default-button');
 defaultButton.addEventListener('click', function() {
-    chrome.tabs.create({ url: 'defaultInput.html' });
+    // chrome.tabs.create({ url: 'defaultInput.html' });
+    window.open('http://localhost:5173', '_blank');
 });

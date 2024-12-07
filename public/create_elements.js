@@ -36,6 +36,8 @@ function initElements() {
                 if(result.userDetails) {
                     console.log('Yes, we have result', result.userDetails);
                     await runScript();
+                } else {
+                    window.open('http://localhost:5173', '_blank');
                 }
             })
         }

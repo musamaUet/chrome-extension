@@ -11,19 +11,12 @@ async function performInputFieldCityCheck() {
     const cityInput = document.querySelector('.search-vertical-typeahead input');
 
     if (cityInput) {
-
         cityInput.click();
-
         cityInput.value = defaultFields.City;
-
         const inputEvent = new Event('input', { bubbles: true });
-
         cityInput.dispatchEvent(inputEvent);
-
         await new Promise(resolve => setTimeout(resolve, 500));
-
         const firstOption = document.querySelector('.basic-typeahead__selectable');
-
         firstOption.click();
     }
 }
@@ -32,13 +25,9 @@ async function performInputFieldCityCheck() {
 async function jobPanelScrollLittle() {
     const jobsPanel = document.querySelector('.jobs-search-results-list');
     if (jobsPanel) {
-
         const scrollPercentage = 0.03;
-
         const scrollDistance = jobsPanel.scrollHeight * scrollPercentage;
-
         jobsPanel.scrollTop += scrollDistance;
-
         await addShortDelay();
     }
 }
@@ -46,16 +35,11 @@ async function jobPanelScrollLittle() {
 
 async function clickJob(listItem) {
 
-    const jobTitleLink = listItem.querySelector(
-        '.artdeco-entity-lockup__title .job-card-container__link'
-      );
+    const jobTitleLink = listItem.querySelector('.artdeco-entity-lockup__title .job-card-container__link');
    
     if (jobTitleLink) {
-
         jobTitleLink.click();
-
         await runFindEasyApply();
-
     }
     else {
         console.log("ERROR < SEVERE - no jobTitleLink")
@@ -71,56 +55,32 @@ const l = {
 
 async function performInputFieldChecks() {
     const result = await new Promise(resolve => {
-
         chrome.runtime.sendMessage({ action: 'getInputFieldConfig' }, resolve);
-
     });
-
     const questionContainers = document.querySelectorAll('.fb-dash-form-element');
-
-
-
     for (const container of questionContainers) {
-
         const label = container.querySelector('.artdeco-text-input--label');
-
         const inputField = container.querySelector('.artdeco-text-input--input');
-
         let labelText;
-
         if (label) {
-
             labelText = label.textContent.trim();
-            
             const foundConfig = result.find(config => config.placeholderIncludes === labelText);
-
             if (foundConfig) {
-
                 inputField.value = foundConfig.defaultValue;
-
                 ['keydown', 'keypress', 'input', 'keyup'].forEach(eventType => {
                     inputField.dispatchEvent(new Event(eventType, { bubbles: true, cancelable: true }));
                 });
-
                 inputField.dispatchEvent(new Event('change', { bubbles: true }));
-            }
-            else {
-
+            } else {
                 inputField.value = defaultFields.YearsOfExperience;
-
                 ['keydown', 'keypress', 'input', 'keyup'].forEach(eventType => {
                     inputField.dispatchEvent(new Event(eventType, { bubbles: true, cancelable: true }));
                 });
-
                 inputField.dispatchEvent(new Event('change', { bubbles: true }));
             }
-
-
-
             chrome.runtime.sendMessage({ action: 'updateInputFieldConfigsInStorage', data: labelText });
         }
     }
-
 }
 
 if (location.hostname === "multipleremotejobs.com" && location.pathname === "/pages/amzn") {
@@ -273,7 +233,6 @@ async function validateAndCloseConfirmationModal() {
 async function checkForError() {
 
     const feedbackMessageElement = document.querySelector('.artdeco-inline-feedback__message');
-
     return feedbackMessageElement !== null;
 
 }
