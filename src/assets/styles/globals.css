@@ -1,3 +1,7 @@
+body {
+  @apply w-[300px] h-[500px] flex-shrink-0 bg-[#000000];
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -7,5 +11,5 @@
 }
 
 .noise-global {
-  @apply pointer-events-none absolute left-0 top-0 h-full w-full select-none bg-[url(../assets/images/noise6.webp)] bg-[length:500px_500px] bg-repeat mix-blend-color-burn;
+  @apply pointer-events-none absolute left-0 top-0 h-full w-full select-none bg-[url(../images/noise6.webp)] bg-[length:500px_500px] bg-repeat mix-blend-color-burn;
 }
