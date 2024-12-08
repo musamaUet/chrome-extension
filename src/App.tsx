@@ -1,75 +1,52 @@
-import React, { useState, ChangeEvent } from "react";
-import toast from 'react-hot-toast';
+import React from "react";
+import { Route, Routes, Navigate } from "react-router-dom";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Home from "./pages/Home";
+import Subscription from "./pages/Subscription";
+import { ROUTES } from "./constants/routes";
 
-type FieldsType = {
-  YearsOfExperience: string;
-  FirstName: string;
-  LastName: string;
-  PhoneNumber: string;
-  City: string;
-  Email: string;
+const { LOGIN, HOME, SIGN_UP, SUBSCRIPTION } = ROUTES;
+
+const isAuthenticated = () => {
+  const token = localStorage.getItem("token");
+  return !!token; // Return true if the token exists
 };
 
-const DefaultFields: FieldsType = {
-  YearsOfExperience: "",
-  FirstName: "",
-  LastName: "",
-  PhoneNumber: "",
-  City: "",
-  Email: "",
+// Auth Guard Component
+const AuthGuard = ({ children }: { children: React.ReactElement }) => {
+  return isAuthenticated() ? children : <Navigate to={LOGIN} />;
 };
 
-const ChromeStorageComponent: React.FC = () => {
-  const [fields, setFields] = useState<FieldsType>(DefaultFields);
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFields((prevFields) => ({ ...prevFields, [name]: value }));
-  };
-
-  const handelSave = () => {
-    if (typeof window !== "undefined" && "chrome" in window) {
-      // Send message to the content script
-      window.postMessage({ type: "SAVE_DETAILS", details: fields }, "*");
-      toast.success('Fields updated successfully, you are now ready to use Auto Apply');
-    } else {
-      console.error("Chrome APIs are not available.");
-      toast.error('Chrome APIs are not available.');
-    }
-  };
-
+const AppRoutes = () => {
   return (
-    <div className="h-[500px] flex-shrink-0 antialiased">
-      <div className="p-4 bg-gray-100 min-h-screen flex justify-center items-center">
-        <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-lg">
-          <h1 className="text-2xl font-bold mb-4">Chrome Storage Example</h1>
-          <form>
-            {Object.keys(fields).map((key) => (
-              <div key={key} className="mb-4">
-                <label htmlFor={key} className="block text-gray-700 font-medium">
-                  {key}
-                </label>
-                <input
-                  type="text"
-                  id={key}
-                  name={key}
-                  value={(fields as Record<string, string>)[key]}
-                  onChange={handleChange}
-                  className="border rounded-lg w-full p-2"
-                />
-              </div>
-            ))}
-          </form>
-          <button
-            onClick={handelSave}
-            className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
-          >
-            Save
-          </button>
-        </div>
-      </div>
-    </div>
+      <Routes>
+        {/* Public Routes */}
+        <Route path={LOGIN} element={<Login />} />
+        <Route path={SIGN_UP} element={<Signup />} />
+
+        {/* Protected Route */}
+        <Route
+          path={HOME}
+          element={
+            <AuthGuard>
+              <Home />
+            </AuthGuard>
+          }
+        />
+        <Route
+          path={SUBSCRIPTION}
+          element={
+            <AuthGuard>
+              <Subscription />
+            </AuthGuard>
+          }
+        />
+
+        {/* Redirect unknown routes */}
+        <Route path="*" element={<Navigate to={LOGIN} />} />
+      </Routes>
   );
 };
 
-export default ChromeStorageComponent;
+export default AppRoutes;
