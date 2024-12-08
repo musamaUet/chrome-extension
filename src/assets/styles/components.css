@@ -1,0 +1,46 @@
+/*=============================================
+*                   Headings                   *
+=============================================*/
+
+.heading-h1 {
+  @apply font-primary font-bold text-52 text-white leading-normal tracking-tight;
+}
+
+.heading-h2 {
+  @apply font-primary font-bold text-44 text-white leading-normal tracking-tight;
+}
+
+.heading-h3 {
+  @apply font-primary font-bold text-36 text-white leading-normal;
+}
+
+.heading-h4 {
+  @apply font-primary font-bold text-32 text-white leading-normal;
+}
+
+.heading-h5 {
+  @apply font-primary font-bold text-26 text-white leading-normal;
+}
+
+.heading-h6 {
+  @apply font-primary font-bold text-22 text-white leading-normal;
+}
+
+/*=============================================
+*                   Body Text                  *
+=============================================*/
+.body-text-l {
+  @apply font-secondary text-[17px] font-normal leading-150;
+}
+.body-text-m {
+  @apply font-secondary text-16 font-normal leading-150;
+}
+.body-text-s {
+  @apply font-secondary text-[15px] font-normal leading-150;
+}
+.body-text-xs {
+  @apply font-secondary text-[14px] font-normal leading-140;
+}
+.body-text-xxs {
+  @apply font-secondary text-[13.5px] font-normal leading-140;
+}
