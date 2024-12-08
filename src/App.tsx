@@ -1,35 +1,75 @@
-import viteLogo from '/vite.svg';
-import { useState } from 'react';
-import '@/assets/styles/app.css';
-import reactLogo from './assets/react.svg';
+import React, { useState, ChangeEvent } from "react";
+import toast from 'react-hot-toast';
 
-function App() {
-  const [count, setCount] = useState(0)
+type FieldsType = {
+  YearsOfExperience: string;
+  FirstName: string;
+  LastName: string;
+  PhoneNumber: string;
+  City: string;
+  Email: string;
+};
+
+const DefaultFields: FieldsType = {
+  YearsOfExperience: "",
+  FirstName: "",
+  LastName: "",
+  PhoneNumber: "",
+  City: "",
+  Email: "",
+};
+
+const ChromeStorageComponent: React.FC = () => {
+  const [fields, setFields] = useState<FieldsType>(DefaultFields);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFields((prevFields) => ({ ...prevFields, [name]: value }));
+  };
+
+  const handelSave = () => {
+    if (typeof window !== "undefined" && "chrome" in window) {
+      // Send message to the content script
+      window.postMessage({ type: "SAVE_DETAILS", details: fields }, "*");
+      toast.success('Fields updated successfully, you are now ready to use Auto Apply');
+    } else {
+      console.error("Chrome APIs are not available.");
+      toast.error('Chrome APIs are not available.');
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="h-[500px] flex-shrink-0 antialiased">
+      <div className="p-4 bg-gray-100 min-h-screen flex justify-center items-center">
+        <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-lg">
+          <h1 className="text-2xl font-bold mb-4">Chrome Storage Example</h1>
+          <form>
+            {Object.keys(fields).map((key) => (
+              <div key={key} className="mb-4">
+                <label htmlFor={key} className="block text-gray-700 font-medium">
+                  {key}
+                </label>
+                <input
+                  type="text"
+                  id={key}
+                  name={key}
+                  value={(fields as Record<string, string>)[key]}
+                  onChange={handleChange}
+                  className="border rounded-lg w-full p-2"
+                />
+              </div>
+            ))}
+          </form>
+          <button
+            onClick={handelSave}
+            className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+          >
+            Save
+          </button>
+        </div>
       </div>
-      <h1 className='bg-[#ff0000]'>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    </div>
+  );
+};
 
-export default App
+export default ChromeStorageComponent;
