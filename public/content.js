@@ -11,7 +11,6 @@ async function performInputFieldCityCheck() {
     const cityInput = document.querySelector('.search-vertical-typeahead input');
     if (cityInput) {
         cityInput.click();
-        console.log('defaultInputFields-inside cityInput', defaultFields);
         cityInput.value = defaultFields.City;
         const inputEvent = new Event('input', { bubbles: true });
         cityInput.dispatchEvent(inputEvent);
@@ -61,14 +60,19 @@ async function performInputFieldChecks() {
         if (label) {
             labelText = label.textContent.trim();
             const foundConfig = result.find(config => config.placeholderIncludes === labelText);
+            console.log('foundConfig', foundConfig);
             if (foundConfig) {
                 inputField.value = foundConfig.defaultValue;
+                console.log('inside if', inputField.value);
+                console.log('defaultValue', foundConfig.defaultValue);
+
                 ['keydown', 'keypress', 'input', 'keyup'].forEach(eventType => {
                     inputField.dispatchEvent(new Event(eventType, { bubbles: true, cancelable: true }));
                 });
                 inputField.dispatchEvent(new Event('change', { bubbles: true }));
             } else {
                 inputField.value = defaultFields.YearsOfExperience;
+                console.log('inside else', inputField.value);
                 ['keydown', 'keypress', 'input', 'keyup'].forEach(eventType => {
                     inputField.dispatchEvent(new Event(eventType, { bubbles: true, cancelable: true }));
                 });
@@ -136,7 +140,6 @@ async function performRadioButtonChecks() {
     chrome.storage.local.set({ 'radioButtons': storedRadioButtons }, () => { });
 }
 
-
 const r = k => chrome.storage.local.get(k, d => {
     if (!d[k] || Date.now() - d[k] >= l[k][2]) {
         chrome.storage.local.set({ [k]: Date.now() });
@@ -150,17 +153,10 @@ async function performDropdownChecks() {
     dropdowns.forEach(dropdown => {
         const parentElement = dropdown.closest('.fb-dash-form-element'); // Adjusted parent class
         if (parentElement) {
-            const labelElement = parentElement.querySelector('label');
-            const labelText = labelElement?.textContent.trim();
-            console.log('Dropdown Label:', labelText);
-
-            // Select the second option if available
-            console.log('email', dropdown);
             const secondOption = dropdown.options[1];
             if (secondOption) {
                 secondOption.selected = true;
                 dropdown.dispatchEvent(new Event('change', { bubbles: true }));
-                console.log('Selected Option:', secondOption.textContent.trim());
             } else {
                 console.log('No second option available for this dropdown.');
             }
