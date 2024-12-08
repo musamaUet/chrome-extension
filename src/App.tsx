@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
@@ -20,7 +20,6 @@ const AuthGuard = ({ children }: { children: React.ReactElement }) => {
 
 const AppRoutes = () => {
   return (
-    <Router>
       <Routes>
         {/* Public Routes */}
         <Route path={LOGIN} element={<Login />} />
@@ -47,7 +46,6 @@ const AppRoutes = () => {
         {/* Redirect unknown routes */}
         <Route path="*" element={<Navigate to={LOGIN} />} />
       </Routes>
-    </Router>
   );
 };
 
