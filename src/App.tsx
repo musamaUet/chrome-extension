@@ -20,6 +20,7 @@ const AuthGuard = ({ children }: { children: React.ReactElement }) => {
 
 const AppRoutes = () => {
   return (
+    <div style={{width: '100vw'}}>
       <Routes>
         {/* Public Routes */}
         <Route path={LOGIN} element={<Login />} />
@@ -46,6 +47,7 @@ const AppRoutes = () => {
         {/* Redirect unknown routes */}
         <Route path="*" element={<Navigate to={LOGIN} />} />
       </Routes>
+    </div>
   );
 };
 

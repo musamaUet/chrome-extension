@@ -40,7 +40,7 @@ export default function Login() {
     };
 
     return (
-        <div className="login-layout w-full h-full relative flex flex-col items-center gap-4 pt-[230px] pb-[50px] overflow-y-scroll no-scrollbar overflow-x-hidden">
+        <div className="login-layout w-full h-screen relative flex flex-col items-center gap-4 pt-[230px] pb-[50px] overflow-y-scroll no-scrollbar overflow-x-hidden">
             <Illustration />
             <Image
                 src={AUTO_APPLY_LOGO}
