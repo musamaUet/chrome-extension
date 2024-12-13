@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Methods } from "@/constants/enum";
 import { useLoginService } from "@/services";
-import { Title, Text, Image } from "@/components/atoms";
+import { Title, Text, Image, Button } from "@/components/atoms";
 import { Illustration, Input } from "@/components/molecules";
 import AUTO_APPLY_LOGO from "@/assets/images/auto-apply-logo.webp";
 
@@ -68,6 +68,7 @@ export default function Login() {
                 handleSubmit={handleLogin}
                 className="mt-[20px]"
             />
+            <Button title="Login" onClick={() => console.log('Click')}/>
         </div>
     );
 }
